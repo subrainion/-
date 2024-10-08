@@ -1,0 +1,5 @@
+﻿  FileName.cpp
+C:\Users\yaros\source\repos\lab\FileName.cpp(120,12): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+C:\Users\yaros\source\repos\lab\FileName.cpp(301,3): warning C4551: в вызове функции отсутствует список аргументов
+C:\Users\yaros\source\repos\lab\FileName.cpp(305,3): warning C4551: в вызове функции отсутствует список аргументов
+  lab.vcxproj -> C:\Users\yaros\source\repos\lab\x64\Debug\lab.exe
