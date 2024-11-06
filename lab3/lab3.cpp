@@ -3,9 +3,9 @@
 #include <string>
 #include <limits>
 #include <vector>
-#include "Human.cpp"
-#include "Names.cpp"
-#include "Cities.cpp"
+#include "Human.h"
+#include "Names.h"
+#include "Cities.h"
 using namespace std;
 
 int main()

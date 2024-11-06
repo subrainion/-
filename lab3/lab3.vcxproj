@@ -132,6 +132,11 @@
     <ClCompile Include="lab3.cpp" />
     <ClCompile Include="Names.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Cities.h" />
+    <ClInclude Include="Human.h" />
+    <ClInclude Include="Names.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

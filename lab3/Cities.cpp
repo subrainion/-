@@ -3,31 +3,21 @@
 #include <string>
 #include <limits>
 #include <vector>
+#include "Cities.h"
 using namespace std;
-struct Way { //zadanide 3
-	string city;
-	int cost;
 
-	Way(string city, int cost) : city(city), cost(cost) {}
-};
-class Cities
+Cities::Way::Way(string city, int cost) : city(city), cost(cost) {}
+Cities::Cities(string name) : name(name) {}
+void Cities::addway(string city, int cost)
 {
-	string name;
-	vector<Way> ways;
-public:
-	Cities(string name) : name(name) {}
-
-	void addway(string city, int cost)
+	ways.push_back(Way(city, cost));
+}
+void Cities::print()
+{
+	cout << "Город: " << name << endl;
+	cout << "Связанные города:" << endl;
+	for (const auto& way : ways)
 	{
-		ways.push_back(Way(city, cost));
+		cout << "  " << way.city << ": " << way.cost << endl;
 	}
-	void print()
-	{
-		cout << "Город: " << name << endl;
-		cout << "Связанные города:" << endl;
-		for (const auto& way : ways)
-		{
-			cout << "  " << way.city << ": " << way.cost << endl;
-		}
-	}
-};
+}
