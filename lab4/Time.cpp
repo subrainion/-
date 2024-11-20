@@ -29,13 +29,26 @@ ostream& operator<<(ostream& os, const Time& time) {
     os << time.hours << ":" << time.minutes;
     return os;
 }
+//Унарные операции 
+Time& Time::operator-() {
+    Time temp(hours = 0, minutes = 0);
+    *this = temp;
+    return *this;
+}
 
+Time Time::operator--(int) {
+    Time temp = *this;  
+    *this = Time(hours, minutes = 0);
+    return temp;  
+}
+//Операции приведения типа
 Time::operator short int() const {
     return hours;
 }
 Time::operator bool() const {
     return (hours != 0 || minutes != 0);
 }
+//Бинарные операции
 bool Time::operator==(const Time& other) const {
     return (hours == other.hours && minutes == other.minutes);
 }

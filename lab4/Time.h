@@ -21,7 +21,8 @@ public:
     // Перегрузка оператора вывода
     friend ostream& operator<<(ostream& os, const Time& time);
     //Унарные операции
-
+    Time& operator-();
+    Time operator--(int);
     //Операции приведения типа
     operator short int() const;
     explicit operator bool() const;
