@@ -1,0 +1,141 @@
+-- Удаление всех таблиц, если они существуют
+DROP TABLE IF EXISTS book_loans CASCADE;
+DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS books CASCADE;
+DROP TABLE IF EXISTS categories CASCADE;
+DROP TABLE IF EXISTS authors CASCADE;
+
+-- Таблица для авторов (с дополнительными полями)
+CREATE TABLE IF NOT EXISTS authors (
+    author_id SERIAL PRIMARY KEY,          -- автоинкремент id
+    first_name VARCHAR(255) NOT NULL,      -- имя автора
+    last_name VARCHAR(255) NOT NULL,       -- фамилия автора
+    country VARCHAR(255),                  -- страна
+    birth_year INT,                        -- год рождения
+    death_year INT                         -- год смерти (может быть NULL)
+);
+
+-- Таблица для категорий
+CREATE TABLE IF NOT EXISTS categories (
+    category_id SERIAL PRIMARY KEY,        -- автоинкремент id
+    name VARCHAR(255) NOT NULL             -- название категории
+);
+
+-- Таблица для книг (с учетом количества книг)
+CREATE TABLE IF NOT EXISTS books (
+    book_id SERIAL PRIMARY KEY,            -- автоинкремент id
+    title VARCHAR(255) NOT NULL,           -- название книги
+    author_id INT REFERENCES authors(author_id) ON DELETE CASCADE,  -- внешний ключ на authors
+    category_id INT REFERENCES categories(category_id) ON DELETE CASCADE,  -- внешний ключ на categories
+    availability_count INT NOT NULL DEFAULT 1  -- количество экземпляров книги в наличии
+);
+
+-- Таблица для пользователей
+CREATE TABLE IF NOT EXISTS users (
+    user_id SERIAL PRIMARY KEY,            -- автоинкремент id
+    first_name VARCHAR(255) NOT NULL,      -- имя пользователя
+    last_name VARCHAR(255) NOT NULL,       -- фамилия пользователя
+    library_card_number VARCHAR(255) NOT NULL UNIQUE -- номер библиотечного билета
+);
+
+-- Таблица для учета выдачи книг
+CREATE TABLE IF NOT EXISTS book_loans (
+    loan_id SERIAL PRIMARY KEY,            -- автоинкремент id
+    book_id INT REFERENCES books(book_id) ON DELETE CASCADE,  -- внешний ключ на books
+    user_id INT REFERENCES users(user_id) ON DELETE CASCADE,  -- внешний ключ на users
+    loan_date DATE NOT NULL DEFAULT CURRENT_DATE, -- дата выдачи книги
+    return_date DATE                          -- дата возврата книги (NULL, если книга не возвращена)
+);
+
+-- Вставка данных для тестирования
+-- Вставка авторов
+INSERT INTO authors (first_name, last_name, country, birth_year, death_year) 
+VALUES
+    ('Стивен', 'Кинг', 'США', 1947, NULL),
+    ('Говард', 'Лавкрафт', 'США', 1890, 1937),
+    ('Артур', 'Конан Дойл', 'Великобритания', 1859, 1930),
+    ('Джоан', 'Роулинг', 'Великобритания', 1965, NULL),
+    ('Грэм', 'Макнилл', 'Великобритания', 1974, NULL),
+    ('Бен', 'Кауч', 'Великобритания', 1980, NULL),
+    ('Джеймс', 'Свит', 'Великобритания', 1971, NULL),
+    ('Дэн', 'Абнетт', 'Великобритания', 1965, NULL)
+ON CONFLICT DO NOTHING;
+
+-- Вставка категорий книг
+INSERT INTO categories (name) 
+VALUES 
+    ('Ужасы'),
+    ('Космический ужас'),
+    ('Детектив'),
+    ('Фэнтези'),
+    ('Научная фантастика'),
+    ('Фантастика')
+ON CONFLICT DO NOTHING;
+
+-- Вставка книг
+INSERT INTO books (title, author_id, category_id, availability_count) 
+VALUES 
+    ('Сияние', 1, 1, 3),
+    ('IT', 1, 1, 2),
+    ('Кэрри', 1, 1, 4),
+    ('Зов Ктулху', 2, 2, 5),
+    ('Тень над Иннсмутом', 2, 2, 3),
+    ('Цвет из иных миров', 2, 2, 4),
+    ('Шерлок Холмс: Этюд в багровых тонах', 3, 3, 6),
+    ('Шерлок Холмс: Собаки Баскервилей', 3, 3, 5),
+    ('Шерлок Холмс: Знак четырёх', 3, 3, 4),
+    ('Гарри Поттер и философский камень', 4, 4, 10),
+    ('Гарри Поттер и тайная комната', 4, 4, 8),
+    ('Гарри Поттер и узник Азкабана', 4, 4, 7),
+    ('Ересь Хоруса: Восстание Хоруса', 5, 5, 3),
+    ('Ересь Хоруса: Призрак Гая', 6, 5, 4),
+    ('Ересь Хоруса: Обсидиановые планеты', 7, 5, 5),
+    ('Ересь Хоруса: Во имя Императора', 8, 5, 6)
+ON CONFLICT DO NOTHING;
+
+-- Вставка тестовых пользователей с номерами библиотечных билетов
+INSERT INTO users (first_name, last_name, library_card_number) 
+VALUES 
+    ('Иван', 'Иванов', '100'),
+    ('Мария', 'Петрова', '101'),
+    ('Алексей', 'Смирнов', '102'),
+    ('Анна', 'Иванова', '103'),
+    ('Петр', 'Кузнецов', '104'),
+    ('Елена', 'Сидорова', '105'),
+    ('Михаил', 'Николаев', '106'),
+    ('Ольга', 'Соколова', '107'),
+    ('Дмитрий', 'Попов', '108'),
+    ('Наталья', 'Федорова', '109'),
+    ('Сергей', 'Павлов', '110'),
+    ('Татьяна', 'Морозова', '111'),
+    ('Владимир', 'Егоров', '112'),
+    ('Галина', 'Чернова', '114'),
+    ('Роман', 'Зайцев', '115')
+ON CONFLICT DO NOTHING;
+
+-- Записи о выдаче книг
+INSERT INTO book_loans (book_id, user_id, loan_date)
+VALUES
+    (1, 1, '2025-01-05'),  -- Иван Иванов берет книгу "Сияние"
+    (2, 2, '2025-01-06'),  -- Мария Петрова берет книгу "IT"
+    (3, 3, '2025-01-07'),  -- Алексей Смирнов берет книгу "Кэрри"
+    (4, 4, '2025-01-08'),  -- Анна Иванова берет книгу "Зов Ктулху"
+    (5, 5, '2025-01-09');  -- Петр Кузнецов берет книгу "Тень над Иннсмутом"
+
+-- Записи о возврате книг
+INSERT INTO book_loans (book_id, user_id, loan_date, return_date)
+VALUES
+    (1, 1, '2025-01-05', '2025-01-10'),  -- Иван Иванов возвращает книгу "Сияние"
+    (2, 2, '2025-01-06', '2025-01-11'),  -- Мария Петрова возвращает книгу "IT"
+    (3, 3, '2025-01-07', '2025-01-12');  -- Алексей Смирнов возвращает книгу "Кэрри"
+
+-- Вывод списка всех таблиц в базе данных
+SELECT table_name
+FROM information_schema.tables
+WHERE table_schema = 'public'
+ORDER BY table_name;
+SELECT * FROM books;
+SELECT * FROM authors;
+SELECT * FROM categories;
+SELECT * FROM users;
+

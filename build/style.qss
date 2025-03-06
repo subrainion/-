@@ -1,0 +1,92 @@
+/* Основной фон приложения */
+QWidget {
+    background-color: #535146; /* серый фон для приложения */
+}
+
+/* Кнопки */
+QPushButton {
+    background-color: #A9AAA9; /* светло-серый фон */
+    color: #515150; /* темно-серый цвет текста */
+    border: 2px solid #515150; /* темно-серый цвет рамки */
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* Кнопки при наведении */
+QPushButton:hover {
+    background-color: #919090; /* темно-серый фон при наведении */
+    border-color: #A9AAA9; /* светло-серый цвет рамки при наведении */
+}
+
+/* Кнопки при нажатии */
+QPushButton:pressed {
+    background-color: #416F9A; /* голубой фон при нажатии */
+    border-color: #A9AAA9; /* светло-серый цвет рамки при нажатии */
+}
+
+/* Таблица */
+QTableWidget {
+    background-color: #D5D4D4; /* светло-серый фон таблицы */
+    border: 1px solid #A9AAA9; /* светло-серый цвет рамки */
+    gridline-color: #515150; /* темно-серый цвет линий сетки */
+}
+
+/* Шапка таблицы */
+QHeaderView::section {
+    background-color: #515150; /* темно-серый фон шапки */
+    color: #D5D4D4; /* светло-серый текст */
+    font-weight: bold;
+    padding: 10px;
+    border: none;
+}
+
+/* Зебра для строк таблицы */
+QTableWidget::item:nth-child(odd) {
+    background-color: #A9AAA9; /* светлый фон для нечетных строк */
+}
+
+QTableWidget::item:nth-child(even) {
+    background-color: #919090; /* более насыщенный фон для четных строк */
+}
+
+/* Селектируемые строки в таблице */
+QTableWidget::item:selected {
+    background-color: #416F9A; /* голубой фон при выделении строки */
+    color: #D5D4D4; /* светло-серый цвет текста */
+}
+
+/* Текст в таблице (не в шапке) */
+QTableWidget::item {
+    color: #515150; /* темно-серый цвет текста в ячейках таблицы */
+}
+
+/* Поле ввода текста */
+QLineEdit {
+    background-color: #D5D4D4; /* светлый фон */
+    border: 1px solid #515150; /* темно-серый цвет рамки */
+    padding: 8px;
+    font-size: 14px;
+    border-radius: 4px;
+    color: #515150; /* темно-серый текст */
+}
+
+/* Поле ввода текста при фокусе */
+QLineEdit:focus {
+    border-color: #416F9A; /* голубая рамка при фокусе */
+}
+
+/* Выпадающий список */
+QComboBox {
+    background-color: #919090; /* серый фон */
+    border: 1px solid #515150; /* темно-серый цвет рамки */
+    padding: 6px;
+    border-radius: 4px;
+    color: #515150; /* темно-серый цвет текста */
+}
+
+/* Выпадающий список при фокусе */
+QComboBox:focus {
+    border-color: #416F9A; /* голубая рамка при фокусе */
+}
